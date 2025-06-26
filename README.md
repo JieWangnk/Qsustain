@@ -4,12 +4,71 @@ This project provides a simplified thermal analysis of a railway depot as a prec
 
 This project simulates the thermal behavior of a railway depot to estimate the number of heating panels required to maintain a target indoor temperature under various conditions. The model accounts for heat losses through the building envelope, ventilation, and the effects of thermal mass from air and (optionally) the ground.
 
+## Project Contents
+- `depotHeatingModel.py`: Main Python script for running the thermal simulation and generating plots.
+- `thermalBalance.ipynb`: Jupyter notebook for interactive exploration, scenario analysis, and schematic plotting. Includes detailed explanations and step-by-step calculations.
+- `depot_sechmatic.png`: Schematic image of the energy balance model in the depot (can be generated from the notebook).
+- `requirements.txt`: List of required Python packages.
+- `HotRadiationDepot12/`: OpenFOAM case directory for CFD simulation of the depot with radiative heating.
+
+## OpenFOAM Case: HotRadiationDepot12
+
+This folder contains a full OpenFOAM case for CFD simulation of the depot with radiative heating.
+
+### Structure
+
+- `0/` – Initial and boundary conditions for all fields (e.g., T, U, p, G, etc.)
+- `constant/` – Mesh, material properties, and radiation settings
+- `system/` – Solver settings, mesh generation, and decomposition
+- `Allrun` – Script to generate the mesh and run the case
+- `Allclean` – Script to clean/reset the case
+
+### Prerequisites
+
+- OpenFOAM installed and sourced in your shell (e.g., `source /opt/openfoam*/etc/bashrc`)
+- Parallel processing enabled if you want to use multiple cores
+
+### How to Run
+
+1. **Clean the case (optional, but recommended for a fresh start):**
+   ```bash
+   cd HotRadiationDepot12
+   ./Allclean
+   ```
+
+2. **Run the full case (mesh generation, decomposition, simulation, reconstruction):**
+   ```bash
+   ./Allrun
+   ```
+
+   This script will:
+   - Generate the base mesh (`blockMesh`)
+   - Extract surface features (`surfaceFeatures`)
+   - Run `snappyHexMesh` for mesh refinement
+   - Decompose the domain for parallel run
+   - Run the main solver in parallel
+   - Reconstruct the results
+
+3. **Post-processing:**
+   - Results will be available in the `HotRadiationDepot12` directory after the run.
+   - Use OpenFOAM tools (e.g., `paraFoam`) for visualization:
+     ```bash
+     paraFoam
+     ```
+
+### Notes
+
+- You can edit the files in `system/`, `constant/`, and `0/` to change simulation parameters, mesh, or boundary conditions.
+- The solver used is determined automatically by the `Allrun` script (`application=$(getApplication)`).
+- For custom runs or debugging, you can execute the commands in `Allrun` step by step.
+
 ## Features
 - Models heat transfer through walls, windows, shutters, roof, and floor
 - Includes ventilation heat loss based on air changes per hour (ACH)
 - Considers both insulated and uninsulated floor scenarios
 - Calculates the number of heating panels needed to reach a target temperature
 - Visualizes indoor temperature rise over time
+- Jupyter notebook for interactive analysis and schematic visualization
 
 ## Requirements
 - Python 3.x
@@ -19,15 +78,23 @@ This project simulates the thermal behavior of a railway depot to estimate the n
 Install dependencies with:
 ```bash
 pip install numpy matplotlib
-```ca
+```
 
 ## Usage
+### Python Script
 1. Edit `depotHeatingModel.py` to set your desired parameters (dimensions, U-values, ventilation rate, etc.).
 2. Set `ground_insulation = True` for an insulated floor (modern slab), or `False` for an uninsulated floor.
 3. Run the script:
 ```bash
 python depotHeatingModel.py
 ```
+
+### Jupyter Notebook
+- Open `thermalBalance.ipynb` in Jupyter or VSCode for interactive exploration.
+- The notebook includes:
+  - Schematic plotting of the depot's energy balance (see also `depot_sechmatic.png`).
+  - Step-by-step parameter setup and scenario analysis.
+  - Mathematical background and references.
 
 ## Input Parameters
 - **Depot dimensions:** length, width, height (meters)
@@ -55,6 +122,7 @@ python depotHeatingModel.py
 ## Output
 - **Plot:** Indoor temperature vs. time for each tested panel configuration
 - **Text summary:** Number of panels required to reach the target temperature
+- **Schematic:** See `depot_sechmatic.png` or generate from the notebook
 
 ## Example Output
 ```

@@ -42,3 +42,4 @@ Thumbs.db
 .idea/
 *.sublime-workspace
 *.sublime-project 
+polyMesh/

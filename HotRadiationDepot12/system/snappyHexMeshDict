@@ -1,0 +1,159 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh true;
+snap            true;
+addLayers       false; // We'll keep this simple for now
+
+geometry
+{
+    DepotCelling12.stl
+    {
+        type triSurfaceMesh;
+        name DepotCelling12;
+        file "DepotCelling12.stl";
+    }
+    DepotWall12.stl
+    {
+        type triSurfaceMesh;
+        name DepotWall12;
+        file "DepotWall12.stl";
+    }
+    DepotFloor12.stl
+    {
+        type triSurfaceMesh;
+        name DepotFloor12;
+        file "DepotFloor12.stl"; 
+    }
+    DepotPanel12.stl
+    {
+        type triSurfaceMesh;
+        name DepotPanel12;
+        file "DepotPanel12.stl";
+    }
+  
+};
+
+castellatedMeshControls
+{
+   maxLocalCells 1000000;
+   maxGlobalCells 2000000;
+   minRefinementCells 10;
+   nCellsBetweenLevels 3;
+
+   features
+   (
+       { file "DepotCelling12.eMesh"; level 1; }
+       { file "DepotWall12.eMesh"; level 1; }
+       { file "DepotFloor12.eMesh"; level 1; }
+       { file "DepotPanel12.eMesh"; level 2; }
+   );
+
+   refinementSurfaces
+   {
+        DepotCelling12
+        {
+            level (1  1);
+        }
+        DepotWall12
+        {
+            level (1  1);
+        }
+        DepotFloor12
+        {
+            level (1  1);
+        }
+        DepotPanel12
+        {
+            level (2 2);
+        }
+              
+    }
+    // A point inside the mesh region to keep.
+    // Make sure this point is inside the wall.
+   locationInMesh (0 0 0);
+
+   resolveFeatureAngle 60;
+}
+
+snapControls
+{
+    // Number of patch smoothing iterations before finding correspondence
+    // to surface
+    nSmoothPatch 3;
+    // Maximum relative distance for points to be attracted by surface.
+    // True distance is this factor times local maximum edge length.
+    // Note: changed(corrected) w.r.t 17x! (17x used 2* tolerance)
+    tolerance 3.0;
+
+    // Number of mesh displacement relaxation iterations.
+    nSolveIter 30;
+
+    // Maximum number of snapping relaxation iterations. Should stop
+    // before upon reaching a correct mesh.
+    nRelaxIter 5;
+
+    // Feature snapping
+
+        // Number of feature edge snapping iterations.
+        // Leave out altogether to disable.
+        nFeatureSnapIter 15;
+
+        // Detect (geometric only) features by sampling the surface
+        // (default=false).
+        implicitFeatureSnap false;
+
+        // Use castellatedMeshControls::features (default = true)
+        explicitFeatureSnap true;
+
+        // Detect features between multiple surfaces
+        // (only for explicitFeatureSnap, default = false)
+        multiRegionFeatureSnap false;
+}
+
+addLayersControls
+{
+    layers
+    {
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+meshQualityControls
+{
+    #include "meshQualityDict"
+
+    // Optional : some meshing phases allow usage of relaxed rules.
+    // See e.g. addLayersControls::nRelaxedIter.
+    relaxed
+    {
+        //- Maximum non-orthogonality allowed. Set to 180 to disable.
+        maxNonOrtho 75;
+    }
+}
+
+
+writeFlags
+(
+);
+
+mergeTolerance 1e-6;
+
+

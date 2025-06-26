@@ -1,0 +1,63 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       extendedFeatureEdgeMesh;
+    location    "constant/extendedFeatureEdgeMesh";
+    object      heatsource.extendedFeatureEdgeMesh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// points
+4((-24 4.39627 2.32947) (-24 -4.60373 2.32947) (24 -4.60373 2.32947) (24 4.39627 2.32947))
+// edges
+4((0 1) (1 2) (2 3) (3 0))
+// concaveStart mixedStart nonFeatureStart
+0 0 0
+// internalStart flatStart openStart multipleStart
+0 0 0 4
+// normals
+2{(0 0 1)}
+// normal volume types
+
+2
+(
+0
+0
+)
+
+// normalDirections
+
+4
+(
+1(1)
+1(1)
+1(1)
+1(1)
+)
+
+// edgeNormals
+
+4
+(
+1(0)
+1(0)
+1(1)
+1(1)
+)
+
+// featurePointNormals
+0()
+// featurePointEdges
+0()
+// regionEdges
+4(0 1 2 3)
+
+
+// ************************************************************************* //

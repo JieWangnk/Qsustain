@@ -128,12 +128,12 @@ for result in panel_results:
     if result['temperature_profile'] is not None:
         plt.plot(time, result['temperature_profile'], label=f"{result['panel_type']} x {result['num_panels']}")
     else:
-        print(f"{result['panel_type']}: Insufficient heating even with 200 panels.")
+        print(f"{result['panel_type']}: Insufficient heating even with {max_panels} panels.")
 
 plt.axhline(inside_temp_target, color='red', linestyle='--', label='Target Temp (16°C)')
 plt.xlabel('Time (hours)')
 plt.ylabel('Temperature (°C)')
-plt.title('Indoor Temperature Rise with Different Fixed Panel Types')
+plt.title('Indoor Temperature Rise with Different Fixed Panel Types \n Ground loss conditions based on the thermal conductivity of the floor {} W/(m²·K) and air change rate {} per hour'.format(U_floor, air_change_rate_per_hour))
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2, fontsize=10)
 plt.grid(True)
 plt.tight_layout()

@@ -30,9 +30,6 @@ venv/
 ENV/
 env.bak/
 
-# Jupyter Notebook files
-*.ipynb
-
 # OS generated files
 .DS_Store
 Thumbs.db
@@ -45,6 +42,3 @@ Thumbs.db
 .idea/
 *.sublime-workspace
 *.sublime-project 
-
-# jupyter notebook
-*.ipynb

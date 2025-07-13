@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  12                                    |
+|   \\  /    A nd           | Website:  www.openfoam.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      physicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heSolidThermo;
+    mixture         pureMixture;
+    transport       constIsoSolid;
+    thermo          eConst;
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+}
+
+mixture
+{
+    // Concrete floor properties (U = 1.5 W/(m²·K), thickness = 0.15 m)
+    specie
+    {
+        nMoles      1;
+        molWeight   28.9; // Air equivalent
+    }
+
+    transport
+    {
+        kappa   0.225;  // k = U × thickness = 1.5 × 0.15
+    }
+
+    thermodynamics
+    {
+        hf      0;
+        Cv      880;   // Typical for concrete
+    }
+
+    equationOfState
+    {
+        rho     2300;  // Concrete density
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  12                                    |
+|   \\  /    A nd           | Website:  www.openfoam.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      physicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heSolidThermo;
+    mixture         pureMixture;
+    transport       constIsoSolid;
+    thermo          eConst;
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+}
+
+mixture
+{
+    // Cavity wall properties (U = 1.6 W/(m²·K), thickness = 0.2 m)
+    specie
+    {
+        nMoles      1;
+        molWeight   28.9; // Air equivalent
+    }
+
+    transport
+    {
+        kappa   0.32;  // k = U × thickness = 1.6 × 0.2
+    }
+
+    thermodynamics
+    {
+        hf      0;
+        Cv      840;   // Typical for building materials
+    }
+
+    equationOfState
+    {
+        rho     1200;  // Typical cavity wall density
+    }
+}
+
+// ************************************************************************* //

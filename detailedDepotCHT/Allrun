@@ -1,0 +1,22 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Generate mesh
+runApplication blockMesh
+runApplication snappyHexMesh -overwrite
+
+# Run simulation
+if [ "$1" = "parallel" ]; then
+    echo "Running in parallel..."
+    runApplication decomposePar
+    runParallel foamRun
+    runApplication reconstructPar
+else
+    echo "Running in serial..."
+    runApplication foamRun
+fi
+
+#------------------------------------------------------------------------------

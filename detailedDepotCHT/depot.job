@@ -1,0 +1,15 @@
+#!/bin/bash --login
+#SBATCH -p multicore_small       # (or --partition=) Submit to the AMD Genoa nodes
+#SBATCH -n 8               # (or --ntasks=) Number of cores
+#SBATCH -t 2-0             # Wallclock time limit, 1-0 is 1 day (max permitted is 7-0, 7 days)
+
+module purge
+module load apps/gcc/openfoam/12
+
+source $foamDotFile
+# mpirun use $SLURM_NTASKS cores (set by the -n flag above)
+#blockMesh
+#snappyHexMesh -overwrite
+decomposePar 
+mpirun foamRun -parallel > log.foamRun_new
+reconstructPar

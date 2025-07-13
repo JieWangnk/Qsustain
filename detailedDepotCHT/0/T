@@ -1,0 +1,87 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 281.15; // 8°C initial air temperature
+
+boundaryField
+{
+    DepotCelling
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            coefficient;
+        h               uniform 5.0;     // U-value 5.0 W/(m²·K) roof
+        Ta              uniform 270.15;  // -3°C external temperature
+        value           uniform 281.15;  // Initial guess 8°C
+        kappaMethod     fluidThermo;
+    }
+
+    DepotWall
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            coefficient;
+        h               uniform 1.6;     // U-value 1.6 W/(m²·K) solid wall
+        Ta              uniform 270.15;  // -3°C external temperature
+        value           uniform 281.15;  // Initial guess 8°C
+        kappaMethod     fluidThermo;
+    }
+
+    DepotFloor
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            coefficient;
+        h               uniform 1.5;     // U-value 1.5 W/(m²·K) uninsulated floor
+        Ta              uniform 270.15;  // -3°C external temperature
+        value           uniform 281.15;  // Initial guess 8°C
+        kappaMethod     fluidThermo;
+    }
+
+    DepotPanel12
+    {
+/*        type            externalWallHeatFluxTemperature;
+        mode            flux;
+        q               uniform 503.7;   // W/m² (36266W × 12 panels ÷ 864m² total area)
+        value           uniform 333.15;  // Initial guess for 60°C
+        kappaMethod     fluidThermo;
+*/
+        type            fixedValue;
+        value           uniform 333.15;  // 60°C panel surface temperature
+
+    }
+
+    DepotWindow
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            coefficient;
+        h               uniform 5.0;     // U-value 5.0 W/(m²·K) single glazed
+        Ta              uniform 270.15;  // -3°C external temperature
+        value           uniform 281.15;  // Initial guess 8°C
+        kappaMethod     fluidThermo;
+    }
+
+    DepotShutter
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            coefficient;
+        h               uniform 4.5;     // U-value 4.5 W/(m²·K) shutter
+        Ta              uniform 270.15;  // -3°C external temperature
+        value           uniform 281.15;  // Initial guess 8°C
+        kappaMethod     fluidThermo;
+    }
+
+}
+
+// ************************************************************************* //

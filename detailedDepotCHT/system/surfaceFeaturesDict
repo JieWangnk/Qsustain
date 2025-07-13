@@ -1,0 +1,36 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+surfaces
+(
+    "DepotCelling.stl"
+    "DepotWall.stl"
+    "DepotFloor.stl"
+    "DepotPanel12.stl"
+    "DepotWindow.stl"
+    "DepotShutter.stl"
+);
+
+includedAngle 30;
+// Settings for the feature extraction
+extractionMethod    extractFromSurface;
+
+extractFromSurfaceCoeffs
+{
+    // The angle to capture features. 30 is a good starting point.
+    includedAngle       30;
+}
+
+// Write the results to .eMesh files in the constant/triSurface/ directory
+writeObj                false;

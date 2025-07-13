@@ -1,0 +1,104 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    // Create cell zones for windows
+    {
+        name    windowCells;
+        type    cellSet;
+        action  new;
+        source  surfaceToCell;
+        sourceInfo
+        {
+            file            "constant/triSurface/DepotWindow.stl";
+            outsidePoints   ((0 0 0));    // Point outside the window
+            includeCut      false;
+            includeInside   true;
+            includeOutside  false;
+            nearDistance    0.1;
+        }
+    }
+    
+    // Create cell zones for shutters
+    {
+        name    shutterCells;
+        type    cellSet;
+        action  new;
+        source  surfaceToCell;
+        sourceInfo
+        {
+            file            "constant/triSurface/DepotShutter.stl";
+            outsidePoints   ((0 0 0));    // Point outside the shutter
+            includeCut      false;
+            includeInside   true;
+            includeOutside  false;
+            nearDistance    0.1;
+        }
+    }
+    
+    // Create cell zones for 12 panels
+    {
+        name    panelCells;
+        type    cellSet;
+        action  new;
+        source  surfaceToCell;
+        sourceInfo
+        {
+            file            "constant/triSurface/DepotPanel12.stl";
+            outsidePoints   ((0 0 0));    // Point outside the panels
+            includeCut      false;
+            includeInside   true;
+            includeOutside  false;
+            nearDistance    0.1;
+        }
+    }
+    
+    // Convert cellSets to cellZones
+    {
+        name    windowZone;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set     windowCells;
+        }
+    }
+    
+    {
+        name    shutterZone;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set     shutterCells;
+        }
+    }
+    
+    {
+        name    panelZone;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set     panelCells;
+        }
+    }
+);
+
+// ************************************************************************* //

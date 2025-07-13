@@ -1,0 +1,55 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    DepotCelling
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    DepotWall
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    DepotFloor
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    DepotPanel12
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    DepotWindow
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    DepotShutter
+    {
+        type            calculated;
+        value           $internalField;
+    }
+    
+}
+
+// ************************************************************************* //

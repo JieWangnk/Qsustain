@@ -23,8 +23,8 @@ absorptionEmissionModel constant;
 
 constantCoeffs
 {
-    absorptivity    0.85;  // EcoStrip XP powder coated steel
-    emissivity      0.85;  // EcoStrip XP powder coated steel
+    absorptivity    0.5;
+    emissivity      0.5;
     E               0;
 }
 

@@ -23,7 +23,7 @@ startFrom       latestTime;
 startTime       0;
 
 stopAt          endTime;
-endTime         72000; // 1 hour for CHT simulation
+endTime         36000; // 10 hours
 
 adjustTimeStep  yes;
 
@@ -35,7 +35,7 @@ deltaT          1;
 
 writeControl    runTime;
 
-writeInterval   600;  // every 1 hour
+writeInterval   3600;  // every 1 hour
 
 purgeWrite      0;
 

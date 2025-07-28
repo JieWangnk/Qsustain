@@ -44,7 +44,7 @@ boundaryField
         type            externalWallHeatFluxTemperature;
         mode            coefficient;
         h               uniform 1.5;     // U-value 1.5 W/(m²·K) uninsulated floor
-        Ta              uniform 270.15;  // -3°C external temperature
+        Ta              uniform 283.15;  // 10°C ground temperature
         value           uniform 281.15;  // Initial guess 8°C
         kappaMethod     fluidThermo;
     }
